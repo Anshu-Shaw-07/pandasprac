@@ -1,32 +1,33 @@
-from pydantic import BaseModel, ConfigDict, Field
-class PracticeAreaCreate(BaseModel):
-    name:str =Field(min_length=1)
-    floor_number:int=Field(gt=1)
-
-class ConsultantCreate(BaseModel): 
+from pydantic import BaseModel,Field,ConfigDict,StrictInt
+class ParentCreate(BaseModel):
     name:str=Field(min_length=1)
-    designation:str=Field(min_length=1)
-    consultation_fee:int=Field(gt= 300)
-    experience_years:int=Field(gt= 0)
-class ConsultantUpdate(BaseModel): 
-    name:str | None =Field(default=None,min_length=1)
-    designation:str | None=Field(default=None,min_length=1)
-    consultation_fee:int | None=Field(default=None,gt= 300)
-    experience_years :int| None=Field(default=None,gt= 0)
-
-
-    
-class PracticeAreaOut(BaseModel):
-    id:int
-    name:str
-    floor_number:int
-    model_config = ConfigDict(from_attributes=True)
-
-class ConsultantOut(BaseModel): 
-    name:str
-    designation:str
-    consultation_fee:int
-    experience_years:int
+    region:str=Field(min_length=1)
+class ChildCreate(BaseModel):
+    batch_name:str=Field(min_length=1)
+    crop_type:str=Field(min_length=1)
+    expected_yield_kg:StrictInt=Field(ge=0)
+    area_hectares:StrictInt=Field(ge=1)
+class ParentOut(BaseModel):
+    id:StrictInt
+    name:str=Field(min_length=1)
+    region:str=Field(min_length=1)
     model_config=ConfigDict(from_attributes=True)
-class PracticeAreaWithConsultants(PracticeAreaOut):
-    consultants: list[ConsultantOut]
+class ChildOut(BaseModel):
+    id:StrictInt
+    batch_name:str=Field(min_length=1)
+    crop_type:str=Field(min_length=1)
+    expected_yield_kg:StrictInt=Field(ge=0)
+    area_hectares:StrictInt=Field(ge=1)
+    model_config=ConfigDict(from_attributes=True)
+class ParentWithChildren(ParentOut):
+    crop:list[ChildOut]
+
+
+
+
+
+
+
+
+
+

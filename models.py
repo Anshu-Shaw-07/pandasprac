@@ -1,23 +1,22 @@
 from sqlalchemy import Column,Integer,String,ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
-class PracticeArea(Base):
-    __tablename__="practice_areas"
+class Farm(Base):
+    __tablename__="farm"
     id=Column(Integer,primary_key=True,index=True)
     name=Column(String,nullable=False)
-    floor_number =Column(Integer,nullable=False)
-    consultants= relationship("Consultant",back_populates="practice_areas")
-class Consultant(Base):
-    __tablename__="consultants"
+    region=Column(String,nullable=False)
+    crop=relationship("Crop",back_populates="farm")
+class Crop(Base):
+    __tablename__="crop"
     id=Column(Integer,primary_key=True,index=True)
-    name=Column(String)
-    designation=Column(String,nullable=False)
-    consultation_fee = Column(Integer, nullable=False)
-    experience_years = Column(Integer, nullable=False)
-    practice_area_id = Column(
-            Integer,
-            ForeignKey("practice_areas.id"),
-            nullable=False
-        )
-    practice_areas=relationship("PracticeArea",back_populates="consultants")
-    
+    batch_name=Column(String,nullable=False)
+    crop_type=Column(String,nullable=False)
+    expected_yield_kg =Column(Integer,nullable=False)
+    area_hectares =Column(Integer,nullable=False)
+    farm_id=Column(Integer,ForeignKey("farm.id"))
+    farm=relationship("Farm",back_populates="crop")
+
+
+
+
